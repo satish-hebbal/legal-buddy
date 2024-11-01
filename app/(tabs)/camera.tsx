@@ -1,4 +1,3 @@
-// app/(tabs)/camera.tsx
 import { useRef, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Button, Image } from 'react-native';
 import { CameraView, CameraType, useCameraPermissions, CameraCapturedPicture } from 'expo-camera';
@@ -12,7 +11,7 @@ interface PhotoPreviewProps {
 
 const PhotoPreviewSection: React.FC<PhotoPreviewProps> = ({ photo, handleRetakePhoto }) => {
   const handleConfirm = () => {
-    console.log("Confirming photo with URI:", photo.uri);
+    console.log('Photo URI being passed:', photo.uri);
     router.push({
       pathname: "/(tabs)/chat",
       params: { photoUri: photo.uri }
@@ -46,7 +45,7 @@ export default function CameraScreen() {
   const cameraRef = useRef<CameraView | null>(null);
 
   if (!permission) {
-    return <View />; // Camera permissions are still loading
+    return <View />;
   }
 
   if (!permission.granted) {
@@ -72,6 +71,7 @@ export default function CameraScreen() {
           base64: true,
           exif: false,
         });
+        console.log("Photo taken:", photo.uri);
         setPhoto(photo);
       } catch (error) {
         console.error('Error taking photo:', error);
@@ -150,15 +150,6 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     backgroundColor: 'white',
-  },
-  button: {
-    flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-    marginHorizontal: 10,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    borderRadius: 10,
-    padding: 10,
   },
   previewButtonContainer: {
     flexDirection: 'row',

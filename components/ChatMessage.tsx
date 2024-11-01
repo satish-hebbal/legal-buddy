@@ -1,6 +1,7 @@
 // components/ChatMessage.tsx
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, Image, StyleSheet, Animated } from 'react-native';
+import { fonts } from '@/constants/theme';
 
 interface ChatMessageProps {
   text: string;
@@ -10,6 +11,34 @@ interface ChatMessageProps {
 }
 
 export const ChatMessage = ({ text, image, isUser, isLoading }: ChatMessageProps) => {
+  const colorAnimation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (isLoading) {
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(colorAnimation, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: false,
+          }),
+          Animated.timing(colorAnimation, {
+            toValue: 0,
+            duration: 1000,
+            useNativeDriver: false,
+          }),
+        ])
+      ).start();
+    } else {
+      colorAnimation.setValue(0);
+    }
+  }, [isLoading]);
+
+  const backgroundColor = colorAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['#E3E3E3', '#B3D6FF'],
+  });
+
   return (
     <View style={[styles.messageContainer, isUser ? styles.userMessage : styles.botMessage]}>
       {image && (
@@ -22,7 +51,9 @@ export const ChatMessage = ({ text, image, isUser, isLoading }: ChatMessageProps
         </View>
       )}
       {isLoading ? (
-        <Text style={styles.loadingText}>Summarizing...</Text>
+        <Animated.View style={[styles.loadingContainer, { backgroundColor }]}>
+          <Text style={styles.loadingText}>Summarizing...</Text>
+        </Animated.View>
       ) : (
         <Text style={[styles.messageText, isUser ? styles.userText : styles.botText]}>
           {text}
@@ -41,11 +72,11 @@ const styles = StyleSheet.create({
   },
   userMessage: {
     alignSelf: 'flex-end',
-    backgroundColor: '#007AFF',
+    backgroundColor: 'rgba(116, 143, 183, 0.20)',
   },
   botMessage: {
     alignSelf: 'flex-start',
-    backgroundColor: '#E5E5EA',
+    backgroundColor: '#fff',
   },
   imageContainer: {
     marginBottom: 5,
@@ -58,16 +89,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   messageText: {
+    fontFamily: fonts.regular,
     fontSize: 16,
   },
   userText: {
-    color: 'white',
+    fontFamily: fonts.regular,
+    color: '#111A28',
   },
   botText: {
-    color: 'black',
+    fontFamily: fonts.regular,
+    color: '#465B7A',
+  },
+  loadingContainer: {
+    borderRadius: 30,
+    padding: 12,
   },
   loadingText: {
-    fontStyle: 'italic',
-    color: '#666',
+    fontFamily: fonts.regular,
+    color: '#465B7A',
   },
 });

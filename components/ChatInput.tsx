@@ -1,14 +1,16 @@
-// components/ChatInput.tsx
+// ChatInput.tsx - Simplified version
 import React, { useState, useRef } from 'react';
 import { View, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { fonts } from '@/constants/theme';
+
 
 interface ChatInputProps {
-  onSendMessage: (text: string, image?: string) => void;
+  onSendMessage: (text: string) => void;
   selectedImage?: string;
   onImageSelect: () => void;
   onCameraOpen: () => void;
-  onClearImage?: () => void; // Add this new prop
+  onClearImage?: () => void;
 }
 
 export const ChatInput = ({ 
@@ -19,55 +21,45 @@ export const ChatInput = ({
   onClearImage 
 }: ChatInputProps) => {
   const [message, setMessage] = useState('');
-  const inputRef = useRef<TextInput>(null);
 
   const handleSend = () => {
     if (message.trim() || selectedImage) {
-      onSendMessage(message, selectedImage);
+      onSendMessage(message);
       setMessage('');
-    }
-  };
-
-  const handleClearImage = (e: any) => {
-    e.stopPropagation(); // Prevent event bubbling
-    if (onClearImage) {
-      onClearImage();
     }
   };
 
   return (
     <View style={styles.container}>
       {selectedImage && (
-  <View style={styles.selectedImageContainer}>
-    <Image
-      source={{ uri: selectedImage }}
-      style={styles.selectedImage}
-      resizeMode="cover"
-    />
-    <TouchableOpacity
-      style={styles.clearButton}
-      onPress={() => onClearImage?.()}
-    >
-      <Ionicons name="close-circle" size={24} color="white" />
-    </TouchableOpacity>
-  </View>
-)}
+        <View style={styles.imagePreview}>
+          <Image 
+            source={{ uri: selectedImage }} 
+            style={styles.previewImage} 
+          />
+          <TouchableOpacity 
+            style={styles.clearButton} 
+            onPress={onClearImage}
+          >
+            <Ionicons name="close-circle" size={24} color="white" />
+          </TouchableOpacity>
+        </View>
+      )}
       <View style={styles.inputContainer}>
-        <TouchableOpacity onPress={onImageSelect} style={styles.iconButton}>
-          <Ionicons name="document-outline" size={24} color="#666" />
+        <TouchableOpacity onPress={onImageSelect} style={styles.button}>
+          <Ionicons name="document" size={24} color="#666" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={onCameraOpen} style={styles.iconButton}>
-          <Ionicons name="camera-outline" size={24} color="#666" />
+        <TouchableOpacity onPress={onCameraOpen} style={styles.button}>
+          <Ionicons name="camera" size={24} color="#666" />
         </TouchableOpacity>
         <TextInput
-          ref={inputRef}
           value={message}
           onChangeText={setMessage}
           style={styles.input}
           placeholder="Type a message..."
           multiline
         />
-        <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
+        <TouchableOpacity onPress={handleSend} style={styles.button}>
           <Ionicons name="send" size={24} color="#007AFF" />
         </TouchableOpacity>
       </View>
@@ -80,44 +72,36 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#f5f5f5',
   },
-  selectedImageWrapper: {
+  imagePreview: {
     marginBottom: 10,
-  },
-  selectedImageContainer: {
-    width: 100,
-    height: 100,
-    marginBottom: 10,
-    borderRadius: 10,
-    overflow: 'hidden',
     position: 'relative',
   },
-  selectedImage: {
+  previewImage: {
     width: '100%',
-    height: '100%',
+    height: 200,
+    borderRadius: 10,
   },
   clearButton: {
     position: 'absolute',
-    top: 5,
-    right: 5,
+    top: 10,
+    right: 10,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    borderRadius: 12,
+    borderRadius: 15,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     borderRadius: 25,
-    paddingHorizontal: 10,
+    padding: 5,
   },
-  iconButton: {
-    padding: 8,
+  button: {
+    padding: 10,
   },
   input: {
+    fontFamily:fonts.regular,
     flex: 1,
-    marginHorizontal: 10,
-    maxHeight: 100,
-  },
-  sendButton: {
-    padding: 8,
+    padding: 10,
+    fontSize: 16,
   },
 });

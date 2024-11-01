@@ -19,11 +19,13 @@
       }
     },
     "compilerOptions": {
-    "strict": true,
-    "paths": {
-      "@/*": ["./*"]
-    }
-  },
+      "strict": true,
+      "paths": {
+        "@/*": [
+          "./*"
+        ]
+      }
+    },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
@@ -51,7 +53,8 @@
         {
           "photosPermission": "Allow $(PRODUCT_NAME) to access your photos to select documents."
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
