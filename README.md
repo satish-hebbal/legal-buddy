@@ -13,7 +13,7 @@ The UI is clean, minimalistic, and user-friendly. Here's what it includes:
 - **Document Input**: Upload legal documents or capture photos for AI analysis.
 - **Chat Screen**: View document summaries in your preferred language.
 
-### Mockups:
+### Color Palette & Typography:
 ![Alt Text](mock3.png)
 
 ---
