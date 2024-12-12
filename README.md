@@ -15,7 +15,7 @@ The UI is clean, minimalistic, and user-friendly. Here's what it includes:
 
 ### Color Palette & Typography:
 ![Alt Text](mock3.png)
-![Alt Text](LB.gif)
+
 
 ---
 
@@ -40,6 +40,9 @@ Legal Buddy uses:
 - A configured API key for the AI service (e.g., OpenAI API)
 
 ### Installation Steps:
+<div align="center">
+  <img src="LB.gif" alt="LB.gif" style="border-radius: 20px;">
+</div>
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/legal-buddy.git
