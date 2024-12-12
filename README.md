@@ -15,6 +15,7 @@ The UI is clean, minimalistic, and user-friendly. Here's what it includes:
 
 ### Color Palette & Typography:
 ![Alt Text](mock3.png)
+![Alt Text](LB.gif)
 
 ---
 
